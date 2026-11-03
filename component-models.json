@@ -173,6 +173,32 @@
     ]
   },
   {
+    "id": "booking",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Summary image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Alt",
+        "value": ""
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Intro (eyebrow, heading, text)",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "cards",
     "fields": [
       {

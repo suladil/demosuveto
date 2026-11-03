@@ -9,6 +9,7 @@
     "id": "section",
     "components": [
       "accordion",
+      "booking",
       "button",
       "cards",
       "carousel",

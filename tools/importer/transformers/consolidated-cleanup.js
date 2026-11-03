@@ -5,10 +5,13 @@
  * - Removes page chrome (header/footer are imported separately as nav/footer).
  * - Turns pp-btn-primary / pp-btn-secondary links into EDS buttons (strong / em wrappers).
  * - Turns icon spans into plain :icon: text so EDS renders /icons/<name>.svg.
+ * Runs for content pages only; nav and footer keep the chrome they are built from.
  */
+const CONTENT_TEMPLATES = ['consolidated-homepage', 'consolidated-locations', 'consolidated-location', 'consolidated-about', 'consolidated-booking'];
+
 export default function transform(hookName, element, payload) {
   const templateName = payload && payload.template && payload.template.name;
-  if (templateName && templateName !== 'consolidated-homepage') return;
+  if (templateName && !CONTENT_TEMPLATES.includes(templateName)) return;
 
   if (hookName === 'beforeTransform') {
     element.querySelectorAll('header, footer, script, style, noscript, link').forEach((el) => el.remove());

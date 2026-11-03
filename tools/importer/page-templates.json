@@ -211,6 +211,406 @@
       ]
     },
     {
+      "name": "consolidated-locations",
+      "description": "Locations overview (/locations) for the consolidated Paws & Partners site: split hero with hospital chooser, location cards grouped by region (Downtown, North Shore), shared-care features, switch-hospitals teaser and closing CTA. Source: migration-work/consolidation/source/locations.html, served locally on port 4600 for import.",
+      "urls": [
+        "http://localhost:4600/locations.html"
+      ],
+      "blocks": [
+        {
+          "name": "hero-split",
+          "instances": [
+            "section.pp-hero"
+          ]
+        },
+        {
+          "name": "cards-locations",
+          "instances": [
+            ".pp-location-list"
+          ]
+        },
+        {
+          "name": "columns-features",
+          "instances": [
+            ".pp-features"
+          ]
+        },
+        {
+          "name": "columns-media",
+          "instances": [
+            "section.pp-media"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "hero",
+          "name": "Hero",
+          "selector": [
+            "section.pp-hero"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-split"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "downtown",
+          "name": "Downtown hospitals",
+          "selector": [
+            "section.pp-downtown"
+          ],
+          "style": "centered",
+          "blocks": [
+            "cards-locations"
+          ],
+          "defaultContent": [
+            ".pp-downtown > .pp-eyebrow",
+            ".pp-downtown > h2",
+            ".pp-downtown > p"
+          ]
+        },
+        {
+          "id": "north-shore",
+          "name": "North Shore hospitals",
+          "selector": [
+            "section.pp-north-shore"
+          ],
+          "style": "light, centered",
+          "blocks": [
+            "cards-locations"
+          ],
+          "defaultContent": [
+            ".pp-north-shore > .pp-eyebrow",
+            ".pp-north-shore > h2",
+            ".pp-north-shore > p"
+          ]
+        },
+        {
+          "id": "every-hospital",
+          "name": "At every hospital",
+          "selector": [
+            "section.pp-why"
+          ],
+          "style": "centered",
+          "blocks": [
+            "columns-features"
+          ],
+          "defaultContent": [
+            ".pp-why > .pp-eyebrow",
+            ".pp-why > h2"
+          ]
+        },
+        {
+          "id": "switch",
+          "name": "Book anywhere, switch anytime",
+          "selector": [
+            "section.pp-switch"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-media"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "closing",
+          "name": "Closing CTA",
+          "selector": [
+            "section.pp-closing"
+          ],
+          "style": "dark, centered",
+          "blocks": [],
+          "defaultContent": [
+            ".pp-closing > .pp-eyebrow",
+            ".pp-closing > h2",
+            ".pp-closing > p"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "consolidated-location",
+      "description": "Hospital detail pages (/locations/<hospital>) for the consolidated Paws & Partners site: split hero with booking CTAs and links to the other hospitals, visit details (address, hours, contact), services at the hospital, hospital team, reviews and a booking section (#book-at-<hospital>). Source: migration-work/consolidation/source/locations/*.html, served locally on port 4600 for import.",
+      "urls": [
+        "http://localhost:4600/locations/riverside.html",
+        "http://localhost:4600/locations/old-town.html",
+        "http://localhost:4600/locations/lakeview.html",
+        "http://localhost:4600/locations/northgate.html"
+      ],
+      "blocks": [
+        {
+          "name": "hero-split",
+          "instances": [
+            "section.pp-hero"
+          ]
+        },
+        {
+          "name": "columns-features",
+          "instances": [
+            ".pp-features"
+          ]
+        },
+        {
+          "name": "cards-icon",
+          "instances": [
+            ".pp-service-list"
+          ]
+        },
+        {
+          "name": "columns-media",
+          "instances": [
+            "section.pp-media"
+          ]
+        },
+        {
+          "name": "cards-testimonials",
+          "instances": [
+            ".pp-review-list"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "hero",
+          "name": "Hero",
+          "selector": [
+            "section.pp-hero"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-split"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "visit",
+          "name": "Visit details",
+          "selector": [
+            "section.pp-visit"
+          ],
+          "style": "centered",
+          "blocks": [
+            "columns-features"
+          ],
+          "defaultContent": [
+            ".pp-visit > .pp-eyebrow",
+            ".pp-visit > h2"
+          ]
+        },
+        {
+          "id": "services",
+          "name": "Services at this hospital",
+          "selector": [
+            "section.pp-services"
+          ],
+          "style": "light, centered",
+          "blocks": [
+            "cards-icon"
+          ],
+          "defaultContent": [
+            ".pp-services > .pp-eyebrow",
+            ".pp-services > h2",
+            ".pp-services > p"
+          ]
+        },
+        {
+          "id": "team",
+          "name": "Hospital team",
+          "selector": [
+            "section.pp-team"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-media"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "reviews",
+          "name": "Reviews",
+          "selector": [
+            "section.pp-reviews"
+          ],
+          "style": "light, centered",
+          "blocks": [
+            "cards-testimonials"
+          ],
+          "defaultContent": [
+            ".pp-reviews > .pp-eyebrow",
+            ".pp-reviews > h2"
+          ]
+        },
+        {
+          "id": "book",
+          "name": "Book at this hospital",
+          "selector": [
+            "section.pp-closing"
+          ],
+          "style": "dark, centered",
+          "blocks": [],
+          "defaultContent": [
+            ".pp-closing > .pp-eyebrow",
+            ".pp-closing > h2",
+            ".pp-closing > p"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "consolidated-about",
+      "description": "About page (/about) for the consolidated Paws & Partners site: split hero, our-story media columns, stats and values, milestone steps, leadership media columns and closing CTA. Source: migration-work/consolidation/source/about.html, served locally on port 4600 for import.",
+      "urls": [
+        "http://localhost:4600/about.html"
+      ],
+      "blocks": [
+        {
+          "name": "hero-split",
+          "instances": [
+            "section.pp-hero"
+          ]
+        },
+        {
+          "name": "columns-media",
+          "instances": [
+            "section.pp-media"
+          ]
+        },
+        {
+          "name": "columns-stats",
+          "instances": [
+            ".pp-stats"
+          ]
+        },
+        {
+          "name": "columns-features",
+          "instances": [
+            ".pp-features"
+          ]
+        },
+        {
+          "name": "cards-steps",
+          "instances": [
+            "ol.pp-steps"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "hero",
+          "name": "Hero",
+          "selector": [
+            "section.pp-hero"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-split"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "story",
+          "name": "Our story",
+          "selector": [
+            "section.pp-story"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-media"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "values",
+          "name": "What we stand for",
+          "selector": [
+            "section.pp-why"
+          ],
+          "style": "light, centered",
+          "blocks": [
+            "columns-stats",
+            "columns-features"
+          ],
+          "defaultContent": [
+            ".pp-why > .pp-eyebrow",
+            ".pp-why > h2"
+          ]
+        },
+        {
+          "id": "milestones",
+          "name": "Our journey",
+          "selector": [
+            "section.pp-milestones"
+          ],
+          "style": "dark, centered",
+          "blocks": [
+            "cards-steps"
+          ],
+          "defaultContent": [
+            ".pp-milestones > .pp-eyebrow",
+            ".pp-milestones > h2",
+            ".pp-milestones > p"
+          ]
+        },
+        {
+          "id": "people",
+          "name": "Our people",
+          "selector": [
+            "section.pp-people"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-media"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "closing",
+          "name": "Closing CTA",
+          "selector": [
+            "section.pp-closing"
+          ],
+          "style": "light, centered",
+          "blocks": [],
+          "defaultContent": [
+            ".pp-closing > .pp-eyebrow",
+            ".pp-closing > h2",
+            ".pp-closing > p"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "consolidated-booking",
+      "description": "Book an Appointment page (/book-appointment) for the consolidated Paws & Partners site: a single Booking block (summary image + intro) whose four booking steps are rendered by the block code, following the supplied booking prototype. Source: migration-work/consolidation/source/book-appointment.html, served locally on port 4600 for import.",
+      "urls": [
+        "http://localhost:4600/book-appointment.html"
+      ],
+      "blocks": [
+        {
+          "name": "booking",
+          "instances": [
+            "section.pp-booking"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "booking",
+          "name": "Booking",
+          "selector": [
+            "section.pp-booking"
+          ],
+          "style": null,
+          "blocks": [
+            "booking"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
       "name": "consolidated-nav",
       "description": "Navigation document (/nav) built from the consolidated source header: brand, menu, Find a Location + Book CTAs, and a utility bar (VO Vets promo, World of Animals utility links + phone).",
       "urls": [
