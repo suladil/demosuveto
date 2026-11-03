@@ -176,12 +176,27 @@ function decorateEyebrows(element) {
 }
 
 /**
+ * Local preview serves pages under /content/ instead of the AEM site root
+ * (/content/demosuveto/); point AEM page links there so they work while previewing.
+ * @param {Element} element container element
+ */
+function localizeAemLinks(element) {
+  const isLocalContentPreview = window.location.hostname === 'localhost'
+    && window.location.pathname.startsWith('/content/');
+  if (!isLocalContentPreview) return;
+  element.querySelectorAll('a[href^="/content/demosuveto/"]').forEach((a) => {
+    a.setAttribute('href', a.getAttribute('href').replace('/content/demosuveto/', '/content/'));
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
+  localizeAemLinks(main);
   decorateIconShortcodes(main);
   decorateButtons(main);
   decorateEyebrows(main);

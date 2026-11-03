@@ -1,0 +1,10 @@
+{
+  "mappings": [
+    "/content/demosuveto/:/",
+    "/content/demosuveto/configuration:/.helix/config.json",
+    "/content/demosuveto/metadata:/metadata.json"
+  ],
+  "includes": [
+    "/content/demosuveto/"
+  ]
+}

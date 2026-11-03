@@ -13,6 +13,7 @@ import cardsTestimonialsParser from './parsers/cards-testimonials.js';
 import cleanupTransformer from './transformers/consolidated-cleanup.js';
 import sectionsTransformer from './transformers/consolidated-sections.js';
 import navFooterTransformer from './transformers/consolidated-nav-footer.js';
+import linksTransformer from './transformers/consolidated-links.js';
 
 const PAGE_TEMPLATE = {
   name: 'consolidated-homepage',
@@ -57,7 +58,7 @@ const parsers = {
   'cards-testimonials': cardsTestimonialsParser,
 };
 
-const transformers = [cleanupTransformer, sectionsTransformer, navFooterTransformer];
+const transformers = [cleanupTransformer, sectionsTransformer, navFooterTransformer, linksTransformer];
 
 function executeTransformers(hookName, element, payload) {
   const enhancedPayload = { ...payload, template: PAGE_TEMPLATE };
