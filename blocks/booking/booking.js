@@ -3,7 +3,10 @@ import { decorateIcons } from '../../scripts/aem.js';
 /*
  * Booking: four-step appointment request (visit, time, details, review) with a live
  * summary card. Authored content: row 1 image (summary column), row 2 intro text
- * (eyebrow, H1, copy). Hospitals, visit types and openings live below; openings are
+ * (eyebrow, H1, copy), optional row 3 promotion (eyebrow, heading, copy) shown as a
+ * banner the visitor can apply, optional row 4 the promotion's offer code. Leave the
+ * promotion row empty to hide the banner; `?promo=<code>` applies it on arrival.
+ * Hospitals, visit types and openings live below; openings are
  * sample availability generated per hospital and day, and nothing is sent anywhere.
  */
 
@@ -148,6 +151,15 @@ function buildMarkup(id) {
       <ol>${stepper}</ol>
       <div class="booking-stepper-track" aria-hidden="true"><span></span></div>
     </nav>
+    <section class="booking-promo" aria-label="Special offer">
+      <span class="booking-promo-tag" aria-hidden="true">${icon('star')}</span>
+      <div class="booking-promo-text"></div>
+      <div class="booking-promo-apply">
+        <span class="booking-promo-code"></span>
+        <button class="booking-promo-button" type="button" data-action="promo" aria-pressed="false">Apply offer</button>
+      </div>
+      <p class="booking-promo-status" role="status"></p>
+    </section>
     <div class="booking-steps" aria-live="polite">
       <section class="booking-panel" data-step="1" aria-labelledby="${id}-h1">
         <div class="booking-step-heading">
@@ -255,6 +267,7 @@ function buildMarkup(id) {
             <div><dt>Where</dt><dd data-bind="where"></dd></div>
             <div><dt>For</dt><dd data-bind="for"></dd></div>
             <div><dt>Contact</dt><dd data-bind="contact"></dd></div>
+            <div data-promo-only hidden><dt>Offer</dt><dd data-bind="offer"></dd></div>
           </dl>
         </div>
         <p class="booking-disclaimer">This demo does not reserve a real appointment. A live version would confirm the time with the hospital's scheduling system.</p>
@@ -273,6 +286,7 @@ function buildMarkup(id) {
           <strong data-bind="success-pet"></strong>
           <span data-bind="when"></span>
           <span data-bind="where"></span>
+          <span class="booking-success-offer" data-promo-only data-bind="offer" hidden></span>
         </div>
         <button class="booking-back" type="button" data-action="restart"><span aria-hidden="true">↻</span> Book another visit</button>
       </section>
@@ -290,6 +304,7 @@ function buildMarkup(id) {
       <div class="booking-summary-detail">${icon('location')}<span><small>Hospital</small><strong data-bind="location-name"></strong><span data-bind="location-address"></span></span></div>
       <div class="booking-summary-detail">${icon('clock')}<span><small>Date &amp; time</small><strong data-bind="summary-time"></strong></span></div>
       <div class="booking-summary-detail">${icon('paw')}<span><small>For</small><strong data-bind="summary-pet"></strong></span></div>
+      <div class="booking-summary-detail booking-summary-offer" data-promo-only hidden>${icon('star')}<span><small>Offer applied</small><strong data-bind="offer-name"></strong><span data-bind="offer-code"></span></span></div>
       <p class="booking-summary-note" data-bind="summary-note"></p>
     </div>
     <div class="booking-help">
@@ -302,9 +317,11 @@ function buildMarkup(id) {
 export default function decorate(block) {
   instance += 1;
   const id = `booking-${instance}`;
-  const [imageRow, textRow] = [...block.children];
+  const [imageRow, textRow, promoRow, codeRow] = [...block.children];
   const imageCell = imageRow?.firstElementChild;
   const textCell = textRow?.firstElementChild;
+  const promoCell = promoRow?.firstElementChild;
+  const codeCell = codeRow?.firstElementChild;
 
   block.innerHTML = '';
   const shell = document.createElement('div');
@@ -317,7 +334,27 @@ export default function decorate(block) {
   if (imageCell?.querySelector('picture, img')) shell.querySelector('.booking-media').append(imageCell);
   else shell.querySelector('.booking-media').remove();
 
+  // promotion banner: shown only when the promotion row has content
+  const promo = { name: '', code: '' };
+  const promoBanner = shell.querySelector('.booking-promo');
+  if (promoCell?.textContent.trim()) {
+    shell.querySelector('.booking-promo-text').append(promoCell);
+    promo.name = (promoCell.querySelector('h1, h2, h3, h4, h5, h6, strong') || promoCell)
+      .textContent.trim();
+    promo.code = codeCell?.textContent.trim() || '';
+    const codeSlot = shell.querySelector('.booking-promo-code');
+    if (promo.code) {
+      codeSlot.append(codeCell);
+      codeSlot.setAttribute('aria-label', `Offer code ${promo.code}`);
+    } else {
+      codeSlot.remove();
+    }
+  } else {
+    promoBanner.remove();
+  }
+
   const params = new URLSearchParams(window.location.search);
+  const promoParam = (params.get('promo') || '').trim().toLowerCase();
   const state = {
     step: 1,
     visit: VISITS.find((v) => v.id === params.get('visit')) || VISITS[0],
@@ -330,6 +367,8 @@ export default function decorate(block) {
     petType: 'Dog',
     ownerName: '',
     email: '',
+    promoApplied: Boolean(promo.name && promoParam
+      && promoParam === (promo.code || 'blackfriday').toLowerCase()),
   };
 
   const $ = (selector) => shell.querySelector(selector);
@@ -351,6 +390,27 @@ export default function decorate(block) {
     });
   }
 
+  function syncPromo() {
+    if (!promo.name) return;
+    const applied = state.promoApplied;
+    const button = $('.booking-promo-button');
+    promoBanner.classList.toggle('is-applied', applied);
+    button.setAttribute('aria-pressed', String(applied));
+    button.textContent = applied ? 'Remove offer' : 'Apply offer';
+    $$('[data-promo-only]').forEach((el) => { el.hidden = !applied; });
+    bind('offer-name', promo.name);
+    bind('offer-code', promo.code ? `Code ${promo.code}` : '');
+    bind('offer', promo.code ? `${promo.name} · ${promo.code}` : promo.name);
+  }
+
+  function togglePromo() {
+    state.promoApplied = !state.promoApplied;
+    syncPromo();
+    $('.booking-promo-status').textContent = state.promoApplied
+      ? `${promo.name} applied to your booking.`
+      : 'Offer removed from your booking.';
+  }
+
   function syncSummary() {
     const loc = state.location;
     bind('service', state.visit.name);
@@ -365,6 +425,7 @@ export default function decorate(block) {
     bind('summary-note', state.patient === 'new'
       ? 'New clients receive a complimentary first wellness exam at any of our hospitals.'
       : 'Welcome back. Your records are shared across all four hospitals.');
+    syncPromo();
   }
 
   function renderSlots() {
@@ -420,6 +481,7 @@ export default function decorate(block) {
     });
     $('.booking-stepper-track span').style.width = `${((state.step - 1) / (STEPS.length - 1)) * 100}%`;
     $('.booking-stepper').hidden = false;
+    promoBanner.hidden = false;
     $('.booking-success').hidden = true;
     if (state.step === 2) renderDates();
     if (state.step === 4) renderReview();
@@ -466,6 +528,7 @@ export default function decorate(block) {
 
   function confirmBooking() {
     $('.booking-stepper').hidden = true;
+    promoBanner.hidden = true;
     panels.forEach((panel) => { panel.hidden = true; });
     const success = $('.booking-success');
     success.hidden = false;
@@ -528,6 +591,7 @@ export default function decorate(block) {
       state.step = 1;
       renderStep();
     }
+    if (action === 'promo') togglePromo();
     if (action === 'confirm') confirmBooking();
     if (action === 'restart') restart();
   });

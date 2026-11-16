@@ -112,6 +112,150 @@
   transition: width 0.3s ease;
 }
 
+/* promotion banner (authored, optional) */
+.booking-promo {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 16px 20px;
+  margin-bottom: 24px;
+  padding: 22px 24px;
+  overflow: hidden;
+  border: 2px solid var(--brand-navy-dark);
+  border-radius: var(--radius-m);
+  background:
+    radial-gradient(circle at 100% 0, rgb(214 175 76 / 28%), transparent 55%),
+    #111a22;
+  color: var(--background-color);
+  transition: border-color 0.2s ease;
+}
+
+.booking-promo.is-applied {
+  border-color: var(--brand-gold);
+}
+
+.booking-promo-tag {
+  display: grid;
+  align-self: start;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 50%;
+  background-color: var(--brand-gold);
+}
+
+.booking-promo-tag .icon {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0);
+}
+
+.booking-promo-text > div > :first-child {
+  margin-top: 0;
+}
+
+.booking-promo-text > div > :last-child {
+  margin-bottom: 0;
+}
+
+.booking-promo-text p:first-child:not(:only-child) {
+  margin: 0;
+  color: var(--brand-gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.booking-promo-text :is(h1, h2, h3, h4, h5, h6) {
+  margin: 6px 0 0;
+  color: var(--background-color);
+  font-size: var(--heading-font-size-m);
+  line-height: 1.2;
+}
+
+.booking-promo-text p:last-child:not(:first-child) {
+  margin: 6px 0 0;
+  color: rgb(255 255 255 / 78%);
+  font-size: var(--body-font-size-xs);
+  line-height: 1.5;
+}
+
+.booking-promo-apply {
+  display: flex;
+  flex-wrap: wrap;
+  grid-column: 1 / -1;
+  align-items: center;
+  gap: 12px;
+}
+
+.booking-promo-code {
+  padding: 9px 14px;
+  border: 1.5px dashed rgb(214 175 76 / 70%);
+  border-radius: var(--radius-s);
+  color: var(--brand-gold);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.booking-promo-code p {
+  margin: 0;
+}
+
+.booking .booking-promo-button {
+  margin: 0;
+  padding: 10px 22px;
+  border: 2px solid var(--brand-gold);
+  border-radius: 100px;
+  background-color: var(--brand-gold);
+  color: var(--brand-navy-dark);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+}
+
+.booking .booking-promo-button:hover,
+.booking .booking-promo-button:focus-visible {
+  border-color: var(--background-color);
+  background-color: var(--background-color);
+  color: var(--brand-navy-dark);
+}
+
+.booking .booking-promo.is-applied .booking-promo-button {
+  background-color: transparent;
+  color: var(--background-color);
+}
+
+.booking .booking-promo.is-applied .booking-promo-button:hover {
+  border-color: var(--background-color);
+}
+
+.booking-promo-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--brand-gold);
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+}
+
+.booking-promo-status:empty {
+  display: none;
+}
+
+.booking-promo.is-applied .booking-promo-status::before {
+  content: '✓ ';
+}
+
+.booking-summary-offer strong {
+  color: var(--brand-coral-dark);
+}
+
+.booking-success-summary .booking-success-offer {
+  color: var(--brand-coral-dark);
+  font-weight: 700;
+}
+
 /* step panels */
 .booking-steps {
   padding: 32px;
@@ -849,6 +993,17 @@
   .booking-options,
   .booking-row {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .booking-promo {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .booking-promo-apply {
+    flex-flow: column nowrap;
+    grid-column: auto;
+    align-items: stretch;
+    text-align: center;
   }
 }
 

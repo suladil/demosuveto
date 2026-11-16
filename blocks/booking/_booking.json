@@ -40,6 +40,20 @@
           "value": "",
           "label": "Intro (eyebrow, heading, text)",
           "valueType": "string"
+        },
+        {
+          "component": "richtext",
+          "name": "promo",
+          "value": "",
+          "label": "Promotion banner (eyebrow, heading, text) - leave empty to hide",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "promoCode",
+          "label": "Promotion offer code",
+          "value": ""
         }
       ]
     }
